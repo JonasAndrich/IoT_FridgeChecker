@@ -15,7 +15,6 @@ import numpy as np
 
 
 dbPath = "/home/pi/Sensors_Database/sensorsData.db"
-#dbPath = "C:\\Users\\Jonas\\Dropbox\\programmieren\\IoT\\Fridge-Checker\\sensorsData.db"
 #Access to database and create a pandas dataframe from data
 #Die Table/Relation heißt "BUTTON_data", darin sind die Attribute "timestamp" und "state" enthalten.
 def getHistData():
