@@ -1,17 +1,14 @@
-#! /usr/bin/python3
+#! /home/ubuntu/fridgechecker/bin/python
 # -*- coding: utf-8 -*-
 
 from dash import dash_table, html, Dash, dcc
 import sqlite3
 import pandas as pd
 import plotly.graph_objs as go
-
-# import datetime
 from datetime import datetime, date, timedelta
-
 import numpy as np
 
-dbPath = "/home/ubuntu/fridgechecker/Database.db"
+PATH = "/home/ubuntu/fridgechecker/Database.db"
 #dbPath = r"C:\Users\Anwender\Dropbox\programmieren\Python\Fridge-Checker\Sensors_Database\sensorsData.db"
 
 
@@ -19,7 +16,7 @@ dbPath = "/home/ubuntu/fridgechecker/Database.db"
 # Die Table/Relation heißt "BUTTON_data", darin sind die Attribute "timestamp" und "state" enthalten.
 def gethistdata():
     # switch dependent of db source
-    conn = sqlite3.connect(dbPath, check_same_thread=False)
+    conn = sqlite3.connect(PATH, check_same_thread=False)
     # conn = sqlite3.connect('../sensorsData.db', check_same_thread=False)
     query = "SELECT * FROM BUTTON_data WHERE timestamp NOT BETWEEN '2020-07-04' AND '2020-07-19' ORDER BY timestamp"
     df = pd.read_sql_query(query, conn)

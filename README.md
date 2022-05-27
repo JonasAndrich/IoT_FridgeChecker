@@ -7,8 +7,8 @@ Magnet-Switch was wired to raspberry pie.
 
 Two script-files are run on a raspberry pi. 
 Using crontab to run those at startup, headless: 
-@reboot /home/pi/.../WebApp_BUTTON.py
-@reboot /home/pi/.../logBUTTON_filter.py
+@reboot /home/ubuntu/fridgechecker/WebApp_BUTTON.py
+@reboot /home/ubuntu/fridgechecker/logBUTTON_filter.py
 
 What does the "logBUTTON_filter.py" do?
 
