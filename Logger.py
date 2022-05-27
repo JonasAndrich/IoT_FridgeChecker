@@ -26,8 +26,7 @@ def logdata(state, now):
     curs.execute("CREATE TABLE IF NOT EXISTS BUTTON_data"
                  "(timestamp TEXT, state INT )")
 
-    insert_stmt = ("INSERT INTO BUTTON_data (timestamp, state)"
-                   "VALUES (%s, %s)")
+    insert_stmt = "INSERT INTO BUTTON_data (timestamp, state) VALUES (?, ?)"
 
     formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
@@ -35,7 +34,6 @@ def logdata(state, now):
     curs.execute(insert_stmt, data)
 
 
-    #curs.execute("INSERT INTO BUTTON_data VALUES(datetime('now'), (?))", (state,))
     conn.commit()
     conn.close()
 
