@@ -13,7 +13,7 @@ GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
 # Set pin 16 to be an input pin and set initial value to be pulled low (off)
 GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-dbPath = "/home/pi/fridgechecker/Database.db"
+dbPath = "/home/ubuntu/fridgechecker/Database.db"
 
 # delay of state changes. State changes taking less than this are not recorded
 # Change as you think
@@ -32,35 +32,37 @@ def logdata(state):
 
 # main function
 def main():
-    prev_state_value = False
+    prev_state = False
     past = datetime.datetime.now()
-
+    time.sleep(0.1)
     while True:
         # accesses the state value of the GPIO pin
-        state_value = GPIO.input(16)
-        print(state_value)
+        state = GPIO.input(16)
+        print(state)
         # defines now
         now = datetime.datetime.now()
 
         # Variable is a timedelta that measures duration between loops in which states have changed.
-        tdiff = now - past
+        tdelta = now - past
 
         # Checks wether or not the state of the button has changed
-        if state_value == prev_state_value:
+
+        if state == prev_state:
             continue
 
-        # Checks if door has been opened (state_value == True) and if state change is below defined delay
-        elif state_value == True and tdiff > delay:
+
+        # Checks if door has been opened (state == True) and if state change is below defined delay
+        elif state == True and tdelta > delay:
             print("The Door has been opened at {}".format(now))
-            prev_state_value = state_value
+            prev_state = state
             past = now
             state = 1
             logdata(state)
 
-        # Checks if door has been closed (state_value == True) and if state change is below defined delay
-        elif state_value == False and tdiff > delay:
+        # Checks if door has been closed (state == True) and if state change is below defined delay
+        elif state == False and tdelta > delay:
             print("The Door has been closed at %s" % now)
-            prev_state_value = state_value
+            prev_state = state
             past = now
             state = 0
             logdata(state)
