@@ -41,13 +41,11 @@ def main():
         time.sleep(delay.total_seconds())
         # print(state)
 
-        now = datetime.now()
+        now = datetime.datetime.now()
 
         # Checks wether or not the state of the button has changed
         if state == prev_state:
             continue
-
-
 
         # Checks if door has been opened (state == True) and if state change is below defined delay
         elif state:
