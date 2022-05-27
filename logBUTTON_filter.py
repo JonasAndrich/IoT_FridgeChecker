@@ -39,7 +39,7 @@ def main():
         # accesses the state value of the GPIO pin
         state = GPIO.input(16)
         time.sleep(delay.total_seconds())
-        print(state)
+        #print(state)
 
         now = datetime.datetime.now()
 
@@ -49,14 +49,14 @@ def main():
 
         # Checks if door has been opened (state == 1) and if state change is below defined delay
         elif state:
-            # print(state)
+            print(state)
             print("The Door has been opened at {}".format(now))
             prev_state = state
             logdata(state)
 
         # Checks if door has been closed (state == 0)
         elif not state:
-            # print(state)
+            print(state)
             print("The Door has been closed at %s" % now)
             prev_state = state
             logdata(state)
