@@ -23,7 +23,7 @@ def gethistdata():
     conn.close()
 
     # converts timestamp to datetime and adds offset time, because date was stored in db as utc
-    df['timestamp'] = pd.to_datetime(df['timestamp'].astype(str)) + pd.DateOffset(hours=2)
+    df['timestamp'] = pd.to_datetime(df['timestamp'].astype(str))
 
     # timstamp wird Dataframe-Index
     df = df.set_index('timestamp')
