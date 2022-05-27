@@ -9,7 +9,7 @@ from datetime import datetime, date, timedelta
 import numpy as np
 
 PATH = "/home/ubuntu/fridgechecker/Database.db"
-#dbPath = r"C:\Users\Anwender\Dropbox\programmieren\Python\Fridge-Checker\Sensors_Database\sensorsData.db"
+
 
 
 # Access to database and create a pandas dataframe from data

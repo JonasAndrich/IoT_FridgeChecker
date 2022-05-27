@@ -38,6 +38,7 @@ def main():
     while True:
         # accesses the state value of the GPIO pin
         state = GPIO.input(16)
+        past = datetime.datetime.now()
         time.sleep(delay.total_seconds())
         #print(state)
 
