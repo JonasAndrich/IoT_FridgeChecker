@@ -20,13 +20,22 @@ delay = datetime.timedelta(seconds=0.3)
 
 
 # log sensor data to sqlite3 database
-def logdata(state):
+def logdata(state, now):
     conn = sqlite3.connect(PATH)
     curs = conn.cursor()
     curs.execute("CREATE TABLE IF NOT EXISTS BUTTON_data"
                  "(timestamp TEXT, state INT )")
 
-    curs.execute("INSERT INTO BUTTON_data VALUES(datetime('now'), (?))", (state,))
+    insert_stmt = ("INSERT INTO BUTTON_data (timestamp, state)"
+                   "VALUES (%s, %s)")
+
+    formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+
+    data = (formatted_date, state)
+    curs.execute(insert_stmt, data)
+
+
+    #curs.execute("INSERT INTO BUTTON_data VALUES(datetime('now'), (?))", (state,))
     conn.commit()
     conn.close()
 
@@ -38,7 +47,6 @@ def main():
     while True:
         # accesses the state value of the GPIO pin
         state = GPIO.input(16)
-        past = datetime.datetime.now()
         time.sleep(delay.total_seconds())
         #print(state)
 
@@ -53,14 +61,14 @@ def main():
             print(state)
             print("The Door has been opened at {}".format(now))
             prev_state = state
-            logdata(state)
+            logdata(state, now)
 
         # Checks if door has been closed (state == 0)
         elif not state:
             print(state)
             print("The Door has been closed at %s" % now)
             prev_state = state
-            logdata(state)
+            logdata(state, now)
 
 
 # is called when script is executed
