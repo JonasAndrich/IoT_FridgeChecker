@@ -19,9 +19,7 @@ Filter -> Set delay value to detect openings with a certain delay
 Data Stored in squlite3-Database.
 
 
-
 What does the "WebApp_BUTTON.py" do?
-
 Gets data from Database.
 Data processed, calculations made with PANDAS.
 
