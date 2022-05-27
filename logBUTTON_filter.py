@@ -15,6 +15,7 @@ GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 dbPath = "/home/ubuntu/fridgechecker/Database.db"
 
+
 # delay of state changes. State changes taking less than this are not recorded
 # Change as you think
 delay = datetime.timedelta(seconds=0.3)
@@ -24,6 +25,9 @@ delay = datetime.timedelta(seconds=0.3)
 def logdata(state):
     conn = sqlite3.connect(dbPath)
     curs = conn.cursor()
+    curs.execute("CREATE TABLE IF NOT EXISTS BUTTON_data"
+                 "(timestamp TEXT, state INT )")
+
     curs.execute("INSERT INTO BUTTON_data VALUES(datetime('now'), (?))", (state,))
     # curs.execute("INSERT INTO BUTTON_data (timestamp,state) VALUES(datetime('now'), (?))",(state,))
     conn.commit()
