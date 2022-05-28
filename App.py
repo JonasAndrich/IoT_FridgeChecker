@@ -13,11 +13,11 @@ PATH = "/home/ubuntu/fridgechecker/Database.db"
 
 
 # Access to database and create a pandas dataframe from data
-# Die Table/Relation heißt "BUTTON_data", darin sind die Attribute "timestamp" und "state" enthalten.
+# Die Table heißt "states", darin sind die Attribute "timestamp" und "state" enthalten.
 def gethistdata():
     # switch dependent of db source
     conn = sqlite3.connect(PATH, check_same_thread=False)
-    query = "SELECT * FROM BUTTON_data ORDER BY timestamp"
+    query = "SELECT * FROM states ORDER BY timestamp"
     df = pd.read_sql_query(query, conn)
     conn.close()
 
@@ -27,11 +27,8 @@ def gethistdata():
     # timstamp wird Dataframe-Index
     df = df.set_index('timestamp')
     # print(df.index)
-    # https://stackoverflow.com/questions/16777570/calculate-time-difference-between-pandas-dataframe-indices
 
     # This creates the Duration between Openings
-    # > Es muss gewährleistet sein, dass Öffnung und Schließung immer im Wechsel zueinander auftreten,
-    # sonst kommt es bei dieser Berechnung zu fehlern
     df["ser_diff [s]"] = df.index.to_series().diff().shift(-1).fillna(pd.Timedelta(seconds=0))
     print(df.tail(10))
     return df

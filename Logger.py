@@ -23,10 +23,10 @@ delay = datetime.timedelta(seconds=0.3)
 def logdata(state, now):
     conn = sqlite3.connect(PATH)
     curs = conn.cursor()
-    curs.execute("CREATE TABLE IF NOT EXISTS BUTTON_data"
+    curs.execute("CREATE TABLE IF NOT EXISTS states"
                  "(timestamp TEXT, state INT )")
 
-    insert_stmt = "INSERT INTO BUTTON_data (timestamp, state) VALUES (?, ?)"
+    insert_stmt = "INSERT INTO states (timestamp, state) VALUES (?, ?)"
 
     formatted_date = now.strftime('%Y-%m-%d %H:%M:%S.%f')[:-4]
 
