@@ -9,6 +9,8 @@ from datetime import datetime, date, timedelta
 import numpy as np
 
 PATH = "/home/ubuntu/fridgechecker/Database.db"
+# PATH = r"Database.db"
+
 
 # Access to database and create a pandas dataframe from data
 # Die Table/Relation heißt "BUTTON_data", darin sind die Attribute "timestamp" und "state" enthalten.
@@ -31,7 +33,7 @@ def gethistdata():
     # > Es muss gewährleistet sein, dass Öffnung und Schließung immer im Wechsel zueinander auftreten,
     # sonst kommt es bei dieser Berechnung zu fehlern
     df["ser_diff [s]"] = df.index.to_series().diff().shift(-1).fillna(pd.Timedelta(seconds=0))
-    print(df.head(10))
+    print(df.tail(10))
     return df
 
 
@@ -49,10 +51,7 @@ def mean_access_today(df):
         opens_today = df.loc[today]["state"].sum()
         print(opens_today)
 
-        # im nächsten Schritt kann ich die Öffnungszeiten für einen Tag (yesterday or today)
-        # oder die gesamte Periode zusammenzählen.
-        # Nur die Einträge von Heute und diejenigen in denen state = 1, also "open" sind.
-        # super eleganter Befehl
+        # Öffnungszeiten (state ==1 )für einen Tag (yesterday or today) für Periode zusammenzählen
         sum_open_today = df["ser_diff [s]"][df["state"] == 1].loc[today].sum()
         print(sum_open_today)
 
@@ -100,6 +99,7 @@ def mean_access(df):
     all_days = all_days.days
 
     # convert daytime object to int
+    # If no time has passed, take at least one day
     if all_days == 0:
         all_days = 1
 
@@ -172,7 +172,7 @@ def serve_layout():
         )
         ,
         dcc.Graph(
-            id='Opening Events over Time',
+            id='Opening Time history',
             figure={
                 'data': [
                     go.Scatter(
@@ -198,6 +198,7 @@ def serve_layout():
 
             }
         ),
+
         dcc.Graph(
             id='Histogram',
             figure={

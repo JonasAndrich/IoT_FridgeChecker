@@ -28,7 +28,7 @@ def logdata(state, now):
 
     insert_stmt = "INSERT INTO BUTTON_data (timestamp, state) VALUES (?, ?)"
 
-    formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+    formatted_date = now.strftime('%Y-%m-%d %H:%M:%S.%f')[:-1]
 
     data = (formatted_date, state)
     curs.execute(insert_stmt, data)
