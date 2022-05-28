@@ -28,7 +28,7 @@ def logdata(state, now):
 
     insert_stmt = "INSERT INTO states (timestamp, state) VALUES (?, ?)"
 
-    formatted_date = now.strftime('%Y-%m-%d %H:%M:%S.%f')[:-4]
+    formatted_date = now.strftime('%Y-%m-%d %H:%M:%S.%f')#[:-4]
 
     data = (formatted_date, state)
     curs.execute(insert_stmt, data)

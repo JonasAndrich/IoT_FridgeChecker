@@ -5,10 +5,11 @@ Basic example for a bot that uses inline keyboards. For an in-depth explanation,
  https://git.io/JOmFw.
 """
 import logging
-import pandas as pd
+
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, CallbackContext
 import sqlite3
+from datetime import datetime
 
 import RPi.GPIO as GPIO  # Import Raspberry Pi GPIO library
 
@@ -62,21 +63,23 @@ def button(update: Update, context: CallbackContext) -> None:
 
     if selection == "1":
         state = GPIO.input(16)
-        #state = 1
-        if state ==1:
+
+        if state == 1:
             query.edit_message_text(text="Kühlschrank offen.")
         else:
             query.edit_message_text(text="Kühlschrank geschlossen.")
 
     elif selection == "2":
-
-        #query.edit_message_text(text="Letzter State-Switch:")
         timestamp, state = get_last_state_swich()
+
+        time = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S.%f")
+        timetuple = time.strftime("%d.%m."), time.strftime("%H:%M")
+
         if state == 0:
-            query.edit_message_text(text="Der Kühlschrank wurde zuletzt am " +timestamp[:-9]+ " um "+timestamp[11:] + " Uhr geschlossen.")
+            query.edit_message_text(text="Der Kühlschrank wurde zuletzt am {} um {} Uhr geschlossen.".format(*timetuple))
         else:
-            query.edit_message_text(text="Der Kühlschrank wurde zuletzt am " + timestamp[:-9] +" um "+timestamp[11:] + " Uhr geöffnet.")
-            #query.message.reply_text
+            query.edit_message_text(text="Der Kühlschrank wurde zuletzt am {} um {} Uhr geöffnet.".format(*timetuple))
+
     elif selection == "3":
         query.edit_message_text(text=f"Selected option: {selection}")
         #query.message.reply_text(text="<pre>" + get_statistics() + "</pre>", parse_mode='HTML')
