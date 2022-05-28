@@ -9,7 +9,7 @@ from datetime import datetime, date, timedelta
 import numpy as np
 
 PATH = "/home/ubuntu/fridgechecker/Database.db"
-# PATH = r"Database.db"
+#PATH = r"Database.db"
 
 
 # Access to database and create a pandas dataframe from data
@@ -149,14 +149,11 @@ def data_assembly():
 app = Dash(__name__)
 
 
-# Allows to update data if page is reloaded
-# Option 1 - Make app.layout a function (https://dash.plot.ly/live-updates 293) and set the data on page load
-# and pass it through to different callbacks with hidden divs: https://dash.plot.ly/sharing-data-between-callbacks 138
 
 def serve_layout():
     df_assembled, df = data_assembly()
 
-    # https://chrisalbon.com/python/data_wrangling/group_pandas_data_by_hour_of_the_day/
+
     grouped = (df["state"].groupby(df.index.hour).count())
     # test = grouped.aggregate(np.sum)
     print(grouped.index)
