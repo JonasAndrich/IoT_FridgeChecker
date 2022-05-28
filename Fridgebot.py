@@ -21,8 +21,9 @@ GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 f = open("TelegramToken", "r")
 TOKEN = f.readline()
-# PATH = "/home/ubuntu/fridgechecker/Database.db"
-PATH = r"Database.db"
+PATH = "/home/ubuntu/fridgechecker/Database.db"
+
+#PATH = r"Database.db"
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
