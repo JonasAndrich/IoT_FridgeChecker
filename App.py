@@ -8,8 +8,8 @@ import plotly.graph_objs as go
 from datetime import datetime, date, timedelta
 import numpy as np
 
-#PATH = "/home/ubuntu/fridgechecker/Database.db"
-PATH = r"Database.db"
+PATH = "/home/ubuntu/fridgechecker/Database.db"
+#PATH = r"Database.db"
 
 
 # Access to database and create a pandas dataframe from data
