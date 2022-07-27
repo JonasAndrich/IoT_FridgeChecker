@@ -8,8 +8,8 @@ import plotly.graph_objs as go
 from datetime import datetime, date, timedelta
 import numpy as np
 
-PATH = "/home/ubuntu/fridgechecker/Database.db"
-#PATH = r"Database.db"
+#PATH = "/home/ubuntu/fridgechecker/Database.db"
+PATH = r"Database.db"
 
 
 # Access to database and create a pandas dataframe from data
@@ -30,6 +30,8 @@ def gethistdata():
 
     # This creates the Duration between Openings
     df["ser_diff [s]"] = df.index.to_series().diff().shift(-1).fillna(pd.Timedelta(seconds=0))
+    #df.drop(df[df["ser_diff [s]"]> timedelta(seconds=4000)].index, inplace=True)
+
     print(df.tail(10))
     return df
 
@@ -150,6 +152,23 @@ app = Dash(__name__)
 def serve_layout():
     df_assembled, df = data_assembly()
 
+    today = date.today()
+    oneweekago = date.today() - timedelta(days=7)
+    #yesterday = yesterday.strftime("%Y-%m-%d")
+
+
+    fig = go.Scatter(
+                        x=df[df["state"] == 1].index,
+                        y=df[df["state"] == 1]["ser_diff [s]"].dt.seconds,
+                        mode='markers',
+                        opacity=0.7,
+                        marker={
+                            'size': 10,
+                            'line': {'width': 0.5, 'color': 'white'}
+                        }
+
+                    )
+
 
     grouped = (df["state"].groupby(df.index.hour).count())
     # test = grouped.aggregate(np.sum)
@@ -168,23 +187,17 @@ def serve_layout():
         dcc.Graph(
             id='Opening Time history',
             figure={
-                'data': [
-                    go.Scatter(
-                        x=df[df["state"] == 1].index,
-                        y=df[df["state"] == 1]["ser_diff [s]"].dt.seconds,
-                        mode='markers',
-                        opacity=0.7,
-                        marker={
-                            'size': 10,
-                            'line': {'width': 0.5, 'color': 'white'}
-                        }
+                'data': [fig
 
-                    )
                 ]
 
                 , 'layout': go.Layout(
                     xaxis={'title': 'Date'},
                     yaxis={'title': 'Opening Time [s]'},
+                    #yaxis_range=[0,200],
+                    xaxis_range=[oneweekago, date.today()],
+                    yaxis_range=[0, int(df["ser_diff [s]"][df["state"] == 1].mean().total_seconds())+200],
+
                     margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
                     # legend={'x': 0, 'y': 1},
                     hovermode='closest'
