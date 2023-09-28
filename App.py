@@ -30,7 +30,7 @@ def gethistdata():
 
     # This creates the Duration between Openings
     df["ser_diff [s]"] = df.index.to_series().diff().shift(-1).fillna(pd.Timedelta(seconds=0))
-    #df.drop(df[df["ser_diff [s]"]> timedelta(seconds=4000)].index, inplace=True)
+    df.drop(df[df["ser_diff [s]"]> timedelta(seconds=1000)].index, inplace=True)
 
     print(df.tail(10))
     return df
