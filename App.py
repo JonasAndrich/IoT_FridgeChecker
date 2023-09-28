@@ -55,7 +55,12 @@ def mean_access_today(df):
         print(sum_open_today)
 
         # Mean open Time today minutes
-        mean_open_time_today = sum_open_today / opens_today
+        if not opens_yesterday:
+            mean_open_time_today = 0
+            print("Der Kühlschrank wurde heute nicht geöffnet!")
+        else:
+            mean_open_time_today = sum_open_yesterday / opens_yesterday
+
 
         print(mean_open_time_today)
         # print(type(mean_open_time_today))
@@ -81,7 +86,11 @@ def mean_access_yesterday(df):
         print(sum_open_yesterday)
 
         # Mean opening time yesterday in minutes
-        mean_open_time_yesterday = sum_open_yesterday / opens_yesterday
+        if not opens_yesterday:
+            mean_open_time_yesterday = 0
+            print("Der Kühlschrank wurde gestern nicht geöffnet!")
+        else:
+            mean_open_time_yesterday = sum_open_yesterday / opens_yesterday
 
         print(mean_open_time_yesterday)
 
