@@ -59,7 +59,7 @@ def mean_access_today(df):
             mean_open_time_today = 0
             print("Der Kühlschrank wurde heute nicht geöffnet!")
         else:
-            mean_open_time_today = sum_open_yesterday / opens_today
+            mean_open_time_today = sum_open_today / opens_today
 
 
         print(mean_open_time_today)
